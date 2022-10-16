@@ -15,22 +15,20 @@
 
   <body class="d-flex flex-column">
     
-    <div class="p-3 mb-2 bg-info text-white">
     <header>
       <nav class="container">
-            <div class="row">
-            <div class="col text-center">
-                <h2 class="display-2">RSS Aggregator</h2>
-            </div>
-            </div>
+        <div class="row">
+          <div class="col text-center">
+            <h2 class="display-2">RSS Aggregator</h2>
+          </div>
+        </div>
       </nav>
     </header>
-    </div>
 
     <main class="container flex-grow-1">
         <ul class="nav nav-pills">
             <li class="nav-item">
-              <a class="nav-link" href="/">Article Feed View</a>
+              <a class="nav-link" href="/articles">Article Feed View</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" href="/sources">Current Sources</a>
@@ -57,8 +55,8 @@
                     <td>{{ source.title }}</td>
                     <td>{{ source.link }}</td>
                     <td>{{ source.description }}</td>
-                    <td><button type="button" class="btn btn-outline-warning">Edit Source</button></td>
-                    <td><a class="btn btn-outline-danger" href="delete/{{ source.id }}" role="button">Unfollow</button></td>
+                    <td><a class="btn btn-outline-warning" href="update_source/{{ source.id }}">Edit Source</td>
+                    <td><a class="btn btn-outline-danger" href="delete/{{ source.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will permanently delete this source">Unfollow</button></td>
                 </tbody>
                 {% endfor %}
             </table>

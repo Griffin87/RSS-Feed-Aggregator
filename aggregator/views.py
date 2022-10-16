@@ -8,6 +8,7 @@ from django.template import loader
 import feedparser
 from django.urls import reverse
 from dateutil import parser
+import uuid
 
 # Create your views here.
 
@@ -20,7 +21,7 @@ class ArticleView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["articles"] = Article.objects.filter(marked_read=False).order_by("-pub_date")[:10]
+        context["articles"] = Article.objects.filter(marked_read=False).order_by("-pub_date")[:40]
         return context
 
 class SourceView(ListView):
@@ -43,7 +44,7 @@ def add(request):
     x = request.POST["source_link"]
     feed = feedparser.parse(x)
     feed_title = feed.channel.title
-    feed_description = feed.channel.description if 'description' in feed.feed else "None"
+    feed_description = feed.channel.description if 'description' in feed.feed else "Not Provided by Source"
     feed_link = feed.channel.link
 
     new_source = Source(
@@ -54,6 +55,8 @@ def add(request):
     new_source.save()
 
     for item in feed.entries:
+        if 'guid' not in item:
+            item.guid = uuid.uuid4()
         if not Article.objects.filter(guid=item.guid).exists():
             new_article = Article(
                 title = item.title,
@@ -61,7 +64,7 @@ def add(request):
                 pub_date = parser.parse(item.published),
                 link = item.link,
                 source_name = new_source,
-                guid = item.guid,
+                guid = item.guid if 'guid' in feed.entries else uuid.uuid4(),
             )
             new_article.save()
 
@@ -72,8 +75,28 @@ def unfollow(request, id):
     source.delete()
     return HttpResponseRedirect(reverse('sources'))
 
+def update_source(request, id):
+    source = Source.objects.get(id=id)
+    template=loader.get_template('update_source.html')
+    context = {
+        'source': source
+    }
+    return HttpResponse(template.render(context, request))
+
+def update(request, id):
+    title = request.POST["title"]
+    description = request.POST["description"]
+    source = Source.objects.get(id=id)
+    source.title = title
+    source.description = description
+    source.save()
+    return HttpResponseRedirect(reverse('sources'))
+
 def mark_read(request, id):
     article = Article.objects.get(id=id)
     article.marked_read = True
     article.save()
-    return HttpResponseRedirect("")
+    return HttpResponseRedirect(reverse('articles'))
+
+def refresh(request):
+    pass
