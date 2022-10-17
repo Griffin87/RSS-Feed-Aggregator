@@ -51,6 +51,7 @@ def add(request):
         title = feed_title,
         description = feed_description,
         link = feed_link,
+        feed_link = x,
     )
     new_source.save()
 
@@ -69,6 +70,27 @@ def add(request):
             new_article.save()
 
     return HttpResponseRedirect(reverse("add_new_source"))
+
+def refresh(request):
+    sources = Source.objects.all()
+    for source in sources:
+        rss = source.feed_link
+        feed = feedparser.parse(rss)
+        for item in feed.entries:
+            if 'guid' not in item:
+                item.guid = uuid.uuid4()
+            if not Article.objects.filter(guid=item.guid).exists():
+                new_article = Article(
+                    title = item.title,
+                    description=item.description,
+                    pub_date = parser.parse(item.published),
+                    link = item.link,
+                    source_name = source,
+                    guid = item.guid if 'guid' in feed.entries else uuid.uuid4(),
+                )
+                new_article.save()
+    
+    return HttpResponseRedirect(reverse('articles'))
 
 def unfollow(request, id):
     source = Source.objects.get(id=id)
@@ -97,6 +119,3 @@ def mark_read(request, id):
     article.marked_read = True
     article.save()
     return HttpResponseRedirect(reverse('articles'))
-
-def refresh(request):
-    pass

@@ -41,6 +41,8 @@
 <form action="add/" method="post">
 {% csrf_token %}
 Link to new source:<br>
+Note that new sources must be RSS links<br>
+e.g. http://www.newyorker.com/services/rss/feeds/everything.xml <br>
 <input name="source_link">
 <br><br>
 <button type="submit" class="btn btn-outline-success" value="Submit">Submit</button>

@@ -13,5 +13,6 @@ urlpatterns = [
     path('mark_read/<int:id>', views.mark_read, name='mark_read'),
     path('articles', ArticleView.as_view(), name="articles"),
     path('update_source/<int:id>', views.update_source, name='update_source'),
-    path('update_source/update/<int:id>', views.update, name="update")
+    path('update_source/update/<int:id>', views.update, name="update"),
+    path('refresh', views.refresh, name='refresh'),
 ]
