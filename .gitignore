@@ -1,1 +1,5 @@
+# ignore python virtual env
 venv/
+
+# ignore database
+db.sqlite3
