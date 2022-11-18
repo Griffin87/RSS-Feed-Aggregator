@@ -4,6 +4,8 @@ from .models import Article
 from django.urls.base import reverse
 from datetime import datetime
 from .models import Source
+from .views import request_guid
+import re
 
 # Create your tests here.
 
@@ -61,3 +63,18 @@ class ArticleTests(TestCase):
     def test_homepage_list_contents(self):
         response = self.client.get(reverse("homepage"))
         self.assertContains(response, "Test Source")
+
+    def test_guid_microservice(self):
+        """
+        Note that this test is designed to assess the functionality of a zeroMQ-based
+        microservice that generates GUID numbers - the microservice must be running in
+        parallel to the Django app for this test to work.
+
+        Regex stolen from:
+        https://www.geeksforgeeks.org/how-to-validate-guid-globally-unique-identifier-using-regular-expression/
+        """
+
+        generated_guid = str(request_guid())
+        regex = "^[{]?[0-9a-fA-F]{8}" + "-([0-9a-fA-F]{4}-)" + "{3}[0-9a-fA-F]{12}[}]?$"
+        p = re.compile(regex)
+        self.assertTrue(re.search(p, generated_guid))

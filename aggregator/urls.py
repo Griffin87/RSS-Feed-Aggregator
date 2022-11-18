@@ -4,7 +4,6 @@ from .views import ArticleView, SourceView
 from . import views
 
 urlpatterns = [
-    # path("", SourceView.as_view(), name="homepage"),
     path("", ArticleView.as_view(), name="homepage"),
     path("add_new_source/", views.add_new_source, name='add_new_source'),
     path("add_new_source/add/", views.add, name='add'),

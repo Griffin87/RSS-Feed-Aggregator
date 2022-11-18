@@ -9,6 +9,18 @@ import feedparser
 from django.urls import reverse
 from dateutil import parser
 import uuid
+import zmq
+
+context = zmq.Context()
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://localhost:5555")
+
+def request_guid():
+    socket.send_string("generateGUID")
+
+    message = socket.recv_pyobj()
+    return message
+
 
 # Create your views here.
 
@@ -57,7 +69,7 @@ def add(request):
 
     for item in feed.entries:
         if 'guid' not in item:
-            item.guid = uuid.uuid4()
+            item.guid = request_guid()
         if not Article.objects.filter(guid=item.guid).exists():
             new_article = Article(
                 title = item.title,
@@ -65,7 +77,7 @@ def add(request):
                 pub_date = parser.parse(item.published),
                 link = item.link,
                 source_name = new_source,
-                guid = item.guid if 'guid' in feed.entries else uuid.uuid4(),
+                guid = item.guid if 'guid' in feed.entries else request_guid(),
             )
             new_article.save()
 
@@ -78,7 +90,7 @@ def refresh(request):
         feed = feedparser.parse(rss)
         for item in feed.entries:
             if 'guid' not in item:
-                item.guid = uuid.uuid4()
+                item.guid = request_guid()
             if not Article.objects.filter(guid=item.guid).exists():
                 new_article = Article(
                     title = item.title,
@@ -86,7 +98,7 @@ def refresh(request):
                     pub_date = parser.parse(item.published),
                     link = item.link,
                     source_name = source,
-                    guid = item.guid if 'guid' in feed.entries else uuid.uuid4(),
+                    guid = item.guid if 'guid' in feed.entries else request_guid(),
                 )
                 new_article.save()
     
