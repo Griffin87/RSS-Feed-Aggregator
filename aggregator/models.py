@@ -5,10 +5,11 @@ from django.db import models
 class Source(models.Model):
     """
     Each RSS feed has a source/channel
-
+    One -> Many relationship between Source and Article
     link -> link to source, e.g. http://www.thenewyorker.com
     feed_link -> link to feed, e.g. http://www.newyorker.com/services/rss/feeds/everything.xml
     """
+    
     title = models.CharField(max_length=200,default="No Title")
     link = models.CharField(max_length=200)
     description = models.CharField(max_length=500,default="No Description")

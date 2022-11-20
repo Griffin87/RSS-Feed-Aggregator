@@ -42,11 +42,12 @@
 
       <div class="row">
         <div class="card-columns"></div>
-        <button type="button" class="btn btn-success btn-lg btn-block m-2">
-          <i class="bi bi-arrow-clockwise"></i>
-          Refresh Articles
-          <i class="bi bi-arrow-clockwise"></i>
-        </button>
+          <button type="button" class="btn btn-success btn-lg btn-block m-2" style="width:35em">
+            <i class="bi bi-arrow-clockwise"></i>
+              Refresh Articles
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+          <div>{{ count }}</div>
 
         <!-- <a class="btn btn-success btn-lg btn-block m-2" href="refresh">
           <i class="bi bi-arrow-clockwise"></i>
@@ -54,7 +55,6 @@
           <i class="bi bi-arrow-clockwise"></i>
         </a> -->
         {% for article in articles %}
-
           <section class="card m-3" style="width: 35em;">
             <div class="row no-gutters">
               <div class="col-md-10">

@@ -53,7 +53,8 @@
                 <tbody>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ source.title }}</td>
-                    <td>{{ source.link }}</td>
+                    <!-- <td href="{{ source.link }}">{{ source.link }}</td>                     -->
+                    <td><a class="btn btn-outline-warning" href="{{ source.link }}">Link To Source</td>
                     <td>{{ source.description }}</td>
                     <td><a class="btn btn-outline-warning" href="update_source/{{ source.id }}">Edit Source</td>
                     <td><a class="btn btn-outline-danger" href="delete/{{ source.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will permanently delete this source">Unfollow</button></td>

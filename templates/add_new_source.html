@@ -38,7 +38,7 @@
     </li>
   </ul>
 
-<form action="add/" method="post">
+<!-- <form action="add/" method="post">
 {% csrf_token %}
 Link to new source:<br>
 Note that new sources must be RSS links<br>
@@ -46,7 +46,20 @@ e.g. http://www.newyorker.com/services/rss/feeds/everything.xml <br>
 <input name="source_link">
 <br><br>
 <button type="submit" class="btn btn-outline-success" value="Submit">Submit</button>
+</form> -->
+
+<form action="add/" method="post"> 
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="source_link">Source Link</label>
+    <input type="text" class="form-control" id="source_link" name="source_link">
+    <small id="source_link_help" class="form-text text-muted">Please enter a valid RSS/XML source</small>
+    <small id="source_link_help" class="form-text text-muted">e.g. http://www.newyorker.com/services/rss/feeds/everything.xml</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit Source</button>
 </form>
+
+
 
 </main>
 
