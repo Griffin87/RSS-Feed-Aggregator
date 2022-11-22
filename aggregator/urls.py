@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ArticleView, SourceView
+from .views import ArticleView, SourceView, BookmarkView
 from . import views
 
 urlpatterns = [
@@ -14,4 +14,6 @@ urlpatterns = [
     path('update_source/<int:id>', views.update_source, name='update_source'),
     path('update_source/update/<int:id>', views.update, name="update"),
     path('refresh', views.refresh, name='refresh'),
+    path("bookmarks", BookmarkView.as_view(), name="bookmarks"),
+    path('toggle_bookmark/<int:id>', views.toggle_bookmark, name='toggle_bookmark'),
 ]

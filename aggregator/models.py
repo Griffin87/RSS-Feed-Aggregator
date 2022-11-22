@@ -31,6 +31,7 @@ class Article(models.Model):
     source_name = models.ForeignKey(Source, on_delete=models.CASCADE)
     guid = models.CharField(max_length=50)
     marked_read = models.BooleanField(default=False)
+    bookmark = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.source_name}: {self.title}"

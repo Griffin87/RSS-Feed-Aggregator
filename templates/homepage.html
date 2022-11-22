@@ -38,22 +38,39 @@
             <li class="nav-item">
               <a class="nav-link" href="/add_new_source">Add New Source</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/bookmarks">Saved Articles</a>
+            </li>
           </ul>
 
       <div class="row">
-        <div class="card-columns"></div>
-          <button type="button" class="btn btn-success btn-lg btn-block m-2" style="width:35em">
-            <i class="bi bi-arrow-clockwise"></i>
-              Refresh Articles
-            <i class="bi bi-arrow-clockwise"></i>
-          </button>
-          <div>{{ count }}</div>
 
-        <!-- <a class="btn btn-success btn-lg btn-block m-2" href="refresh">
-          <i class="bi bi-arrow-clockwise"></i>
-          Refresh Articles
-          <i class="bi bi-arrow-clockwise"></i>
-        </a> -->
+        <!-- <div class="row">
+          <div class="col-sm">
+            <button type="button" class="btn btn-success btn-lg btn-block m-2" style="width:35em">
+              <i class="bi bi-arrow-clockwise"></i>
+                Refresh Articles
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            </div>
+          <div class="col-sm">
+            <h4>You have {{ count }} unread articles!</h4>
+          </div>
+        </div> -->
+
+        <ul class="nav">
+          <li class="nav-item">
+            <button type="button" class="btn btn-success btn-lg btn-block m-2" style="width:35em">
+              <i class="bi bi-arrow-clockwise"></i>
+                Refresh Articles
+              <i class="bi bi-arrow-clockwise"></i>
+          </li>
+          <li class="nav-item">
+            <h4>You have {{ count }} unread articles!</h4>
+          </li>
+        </ul>
+
+        <div class="card-columns"></div>
         {% for article in articles %}
           <section class="card m-3" style="width: 35em;">
             <div class="row no-gutters">
@@ -62,8 +79,9 @@
                   <h5 class="card-title">{{ article.title }}</h3>
                   <h6 class="card-subtite mb2 text-muted">{{ article.source_name }}</p>
                   <p class="card-date">Published on {{ article.pub_date }}</p>
-                  <a class="btn btn-outline-warning" href="{{ article.link }}" role="button" data-toggle="tooltip" data-placement="top" title="This will redirect to an external site">Click to read this article</a>
-                  <a class="btn btn-outline-success" href="mark_read/{{ article.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will remove the article from your feed">Mark Article as Read</a>
+                  <a class="btn btn-warning" href="{{ article.link }}" role="button" data-toggle="tooltip" data-placement="top" title="This will redirect to an external site">Link to Article</a>
+                  <a class="btn btn-success" href="mark_read/{{ article.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will remove the article from your feed">Mark Read</a>
+                  <a class="btn btn-success" href="toggle_bookmark/{{ article.id }}" role="button">Save For Later</a>
                 </div>
               </div>
             </div>
@@ -74,7 +92,7 @@
       </div>
     </main>
 
-    <footer class="container-fluid">
+    <footer class="text-center text-lg-start">
       <div class="row">
         <div class="col text-center">
           <p>Copyright G Koss</p>

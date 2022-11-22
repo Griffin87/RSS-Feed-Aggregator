@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSS Aggregator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" 
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
+    crossorigin="anonymous"
+      />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+  </head>
+  <body class="d-flex flex-column">
+    
+    <header>
+      <nav class="container">
+        <div class="row">
+          <div class="col text-center">
+            <h2 class="display-2">RSS Aggregator</h2>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container flex-grow-1">
+
+      <main class="container flex-grow-1">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" href="/articles">Article Feed View</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sources">Current Sources</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/add_new_source">Add New Source</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/bookmarks">Saved Articles</a>
+            </li>
+          </ul>
+
+      <div class="row">
+        <div class="card-columns"></div>
+        {% for bookmark in bookmarks %}
+          <section class="card m-3" style="width: 35em;">
+            <div class="row no-gutters">
+              <div class="col-md-10">
+                <div class="card-body ml-3">
+                  <h5 class="card-title">{{ bookmark.title }}</h3>
+                  <h6 class="card-subtite mb2 text-muted">{{ bookmark.source_name }}</p>
+                  <p class="card-date">Published on {{ bookmark.pub_date }}</p>
+                  <a class="btn btn-warning" href="{{ bookmark.link }}" role="button" data-toggle="tooltip" data-placement="top" title="This will redirect to an external site">Link to Article</a>
+                  <a class="btn btn-success" href="mark_read/{{ bookmark.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will remove the article from your feed">Mark Read</a>
+                  <a class="btn btn-danger" href="toggle_bookmark/{{ bookmark.id }}" role="button">Remove from Bookmarks</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        {% endfor %}
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="container-fluid">
+      <div class="row">
+        <div class="col text-center">
+          <p>Copyright G Koss</p>
+        </div>
+      </div>
+    </footer>
+    
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" 
+      crossorigin="anonymous">
+    </script>
+
+  </body>
+</html>

@@ -54,6 +54,20 @@ class SourceView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["sources"] = Source.objects.all()
+        context["source_count"] = Source.objects.all().count()
+        return context
+
+class BookmarkView(ListView):
+    """
+    View for bookmarked articles
+    """
+    template_name = "bookmarks.html"
+    model = Article
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["bookmarks"] = Article.objects.filter(bookmark=True).order_by("-pub_date")
+        context["bookmark_count"] = Article.objects.filter(bookmark=True).count()
         return context
 
 def add_new_source(request):
@@ -169,8 +183,21 @@ def mark_read(request, id):
     """
     Marks Article objects as "Read", removing them from 
     feed but keeping them in the database to avoid duplicates
+    Returns status 204 - No Content
     """
     article = Article.objects.get(id=id)
-    article.marked_read = True
+    article.marked_read = not article.marked_read
     article.save()
-    return HttpResponseRedirect(reverse('articles'))
+    return HttpResponse(status=204)
+
+def toggle_bookmark(request, id):
+    """
+    Adds or removes a Bookmark tag from an Article object
+    Articles where bookmark = True are saved even when marked read,
+    and can be viewed separately from other Articles
+    Returns status 204 - No Content
+    """
+    article = Article.objects.get(id=id)
+    article.bookmark = not article.bookmark
+    article.save()
+    return HttpResponse(status=204)
