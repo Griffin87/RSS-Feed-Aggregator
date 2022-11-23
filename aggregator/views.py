@@ -96,15 +96,7 @@ def add(request):
         if 'guid' not in item:
             item.guid = request_guid()
         if not Article.objects.filter(guid=item.guid).exists():
-            new_article = Article(
-                title = item.title,
-                description=item.description,
-                pub_date = parser.parse(item.published),
-                link = item.link,
-                source_name = new_source,
-                guid = item.guid if 'guid' in feed.entries else request_guid(),
-            )
-            new_article.save()
+            save_article(item, new_source)
 
     return HttpResponseRedirect(reverse("add_new_source"))
 
@@ -117,39 +109,34 @@ def refresh(request):
             if 'guid' not in item:
                 item.guid = request_guid()
             if not Article.objects.filter(guid=item.guid).exists():
-                new_article = Article(
-                    title = item.title,
-                    description=item.description,
-                    pub_date = parser.parse(item.published),
-                    link = item.link,
-                    source_name = source,
-                    guid = item.guid if 'guid' in feed.entries else request_guid(),
-                )
-                new_article.save()
+                save_article(item, source)
     
     return HttpResponseRedirect(reverse('articles'))
 
-def add_source_articles(source):
-    feed = feedparser(source.feed_link)
-    for entry in feed.entries:
-        if 'guid' not in entry:
-            entry.guid = request_guid()
-        if not Article.objects.filter(guid=entry.guid).exists():
-            new_article = Article(
-                title = entry.title,
-                description=entry.description,
-                pub_date = parser.parse(entry.published),
-                link = entry.link,
-                source_name = source,
-                guid = entry.guid if 'guid' in feed.entries else request_guid(),
-            )
-            new_article.save()
+def save_article(entry, source):
+    """
+    Helper Function
+    Accepts an entry in a parsed RSS feed
+    Creates and saves an Article objects using information
+    from the parsed feed entry
+    Returns None
+    """
+    new_article = Article(
+        title = entry.title,
+        description=entry.description,
+        pub_date = parser.parse(entry.published),
+        link = entry.link,
+        source_name = source,
+        guid = entry.guid,
+    )
+    new_article.save()
 
 
 def unfollow(request, id):
     """
     Removes corresponding Source from database
     Deletes every Article associated with Source in a cascade
+    Returns redirect to source.html
     """
     source = Source.objects.get(id=id)
     source.delete()

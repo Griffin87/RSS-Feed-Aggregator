@@ -40,13 +40,15 @@
 
 <form action="update/{{ source.id }}" method="post">
     {% csrf_token %}
-    Source Name:<br>
-    <input name="title" value="{{ source.title }}">
-    <br>
-    Source Description:
-    <input name="description" value="{{ source.description }}">
+    <div class="form-group">
+      Source Name:<br>
+      <input name="title" value="{{ source.title }}">
+      <br>
+      Source Description:
+      <input name="description" value="{{ source.description }}">
 
-    <input type="submit" value="Submit">
+      <input type="submit" value="Submit">
+    </div>
 </form>
 
 </main>

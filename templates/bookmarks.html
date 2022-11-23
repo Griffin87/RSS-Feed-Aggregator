@@ -43,26 +43,37 @@
             </li>
           </ul>
 
-      <div class="row">
-        <div class="card-columns"></div>
-        {% for bookmark in bookmarks %}
-          <section class="card m-3" style="width: 35em;">
-            <div class="row no-gutters">
-              <div class="col-md-10">
-                <div class="card-body ml-3">
-                  <h5 class="card-title">{{ bookmark.title }}</h3>
-                  <h6 class="card-subtite mb2 text-muted">{{ bookmark.source_name }}</p>
-                  <p class="card-date">Published on {{ bookmark.pub_date }}</p>
-                  <a class="btn btn-warning" href="{{ bookmark.link }}" role="button" data-toggle="tooltip" data-placement="top" title="This will redirect to an external site">Link to Article</a>
-                  <a class="btn btn-success" href="mark_read/{{ bookmark.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will remove the article from your feed">Mark Read</a>
-                  <a class="btn btn-danger" href="toggle_bookmark/{{ bookmark.id }}" role="button">Remove from Bookmarks</a>
-                </div>
-              </div>
-            </div>
-          </section>
-        {% endfor %}
-        </div>
+    <div class="jumbotron">
+        <p class="lead">
+            Articles can be stored here and revisited later!
+        </p>
+        <hr class="my-4">
+        <p>Whether or not they are marked read, they'll be saved on this page until you delete them</p>
+    </div>
 
+      <div class="row">
+        <div class="col-mid-4">
+            <table class="table table-striped">
+                <thead>
+                    <th>Remove</th>
+                    <th>Title</th>
+                    <th>Source</th>
+                    <th>Publication Date</th>
+                    <th>Link</th>
+                </thead>
+                {% for bookmark in bookmarks %}
+                <tbody>
+                    <td>
+                        <a class="btn btn-secondary" href="toggle_bookmark/{{ bookmark.id }}" role="button">Remove
+                    </td>
+                    <td>{{ bookmark.title }}</td>
+                    <td>{{ bookmark.source_name }}</td>
+                    <td>{{ bookmark.pub_date }}</td>
+                    <td><a class="btn btn-warning" href="{{ bookmark.link }}">External Link</td>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
       </div>
     </main>
 

@@ -17,7 +17,7 @@
     
     <header>
       <nav class="container">
-        <div class="row">
+        <div class="jumbotron">
           <div class="col text-center">
             <h2 class="display-2">RSS Aggregator</h2>
           </div>
@@ -26,6 +26,10 @@
     </header>
 
     <main class="container flex-grow-1">
+
+      <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Navbar</span>
+      </nav>
 
       <main class="container flex-grow-1">
         <ul class="nav nav-pills">
@@ -45,30 +49,22 @@
 
       <div class="row">
 
-        <!-- <div class="row">
-          <div class="col-sm">
-            <button type="button" class="btn btn-success btn-lg btn-block m-2" style="width:35em">
-              <i class="bi bi-arrow-clockwise"></i>
-                Refresh Articles
-              <i class="bi bi-arrow-clockwise"></i>
-            </button>
-            </div>
-          <div class="col-sm">
-            <h4>You have {{ count }} unread articles!</h4>
-          </div>
-        </div> -->
+        <div class="jumbotron">          
+          <hr class="my-4">
+          <p class="lead">
+              This page displays all {{ count }} unread articles from the sources you follow!
+          </p>
 
-        <ul class="nav">
-          <li class="nav-item">
-            <button type="button" class="btn btn-success btn-lg btn-block m-2" style="width:35em">
+          <p>You can use the refresh button below to check if anything new has been published</p>
+          <p class="lead">
+            <a class="btn btn-success btn-lg btn-block m2" href="/refresh" role="button">
               <i class="bi bi-arrow-clockwise"></i>
                 Refresh Articles
               <i class="bi bi-arrow-clockwise"></i>
-          </li>
-          <li class="nav-item">
-            <h4>You have {{ count }} unread articles!</h4>
-          </li>
-        </ul>
+            </a>
+          </p>
+          <hr class="my-4">
+      </div>
 
         <div class="card-columns"></div>
         {% for article in articles %}
