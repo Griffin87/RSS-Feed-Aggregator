@@ -17,8 +17,9 @@ socket.connect("tcp://localhost:5555")
 
 def request_guid():
     """
-    Helper function, utilizes ZeroMQ Microservice to generate
-    missing GUIDs (unique identifiers)
+    Helper function, utilizes ZeroMQ Microservice to generate GUIDs.
+    Called when a newly parsed article is missing a GUID.
+    Microservice must be running locally for this to function.
     """
 
     # functionally equivalent to the following:
@@ -78,19 +79,13 @@ def add_new_source(request):
     return HttpResponse(template.render({}, request))
 
 def add(request):
+    """
+    Takes a user-provided link to an RSS feed source and uses it
+    to create a new Source object.
+    """
     x = request.POST["source_link"]
     feed = feedparser.parse(x)
-    feed_title = feed.channel.title
-    feed_description = feed.channel.description if 'description' in feed.feed else "Not Provided by Source"
-    feed_link = feed.channel.link
-
-    new_source = Source(
-        title = feed_title,
-        description = feed_description,
-        link = feed_link,
-        feed_link = x,
-    )
-    new_source.save()
+    new_source = save_source(x, feed)
 
     for item in feed.entries:
         if 'guid' not in item:
@@ -101,6 +96,11 @@ def add(request):
     return HttpResponseRedirect(reverse("add_new_source"))
 
 def refresh(request):
+    """
+    Iterates across all saves Sources, looking for new
+    Articles; if any are found, saves them to database.
+    Returns redirect to /articles (homepage)
+    """
     sources = Source.objects.all()
     for source in sources:
         rss = source.feed_link
@@ -112,6 +112,24 @@ def refresh(request):
                 save_article(item, source)
     
     return HttpResponseRedirect(reverse('articles'))
+
+def save_source(source_link, feed):
+    """
+    Helper function
+    Creates, saves, and returns a new Source object
+    """
+    feed_title = feed.channel.title
+    feed_description = feed.channel.description if 'description' in feed.feed else "Not Provided by Source"
+    feed_link = feed.channel.link
+
+    new_source = Source(
+        title = feed_title,
+        description = feed_description,
+        link = feed_link,
+        feed_link = source_link,
+    )
+    new_source.save()
+    return new_source
 
 def save_article(entry, source):
     """
@@ -130,7 +148,6 @@ def save_article(entry, source):
         guid = entry.guid,
     )
     new_article.save()
-
 
 def unfollow(request, id):
     """

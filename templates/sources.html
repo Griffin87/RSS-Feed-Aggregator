@@ -40,6 +40,14 @@
               <a class="nav-link" href="/bookmarks">Saved Articles</a>
             </li>
           </ul>
+
+      <div class="jumbotron">
+        <p class="lead">
+            This page displays the sources you are currently following.
+        </p>
+        <p>Unfollowing a source here will remove all associated articles from your feed <em>and</em> your bookmarks.</p>
+        <hr class="my-4">
+      </div>
         
       <div class="row">
         <div class="col-mid-4">
@@ -59,7 +67,7 @@
                     <!-- <td href="{{ source.link }}">{{ source.link }}</td>                     -->
                     <td><a class="btn btn-warning" href="{{ source.link }}">Link To Source</td>
                     <td>{{ source.description }}</td>
-                    <td><a class="btn btn-warning" href="update_source/{{ source.id }}">Edit Source</td>
+                    <td><a class="btn btn-info" href="update_source/{{ source.id }}">Edit Source</td>
                     <td><a class="btn btn-danger" href="delete/{{ source.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will permanently delete this source">Unfollow</button></td>
                 </tbody>
                 {% endfor %}

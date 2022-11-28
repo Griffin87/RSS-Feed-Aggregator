@@ -27,10 +27,6 @@
 
     <main class="container flex-grow-1">
 
-      <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">Navbar</span>
-      </nav>
-
       <main class="container flex-grow-1">
         <ul class="nav nav-pills">
             <li class="nav-item">
@@ -50,14 +46,13 @@
       <div class="row">
 
         <div class="jumbotron">          
-          <hr class="my-4">
           <p class="lead">
               This page displays all {{ count }} unread articles from the sources you follow!
           </p>
 
           <p>You can use the refresh button below to check if anything new has been published</p>
           <p class="lead">
-            <a class="btn btn-success btn-lg btn-block m2" href="/refresh" role="button">
+            <a class="btn btn-success btn-block m2" href="/refresh" role="button">
               <i class="bi bi-arrow-clockwise"></i>
                 Refresh Articles
               <i class="bi bi-arrow-clockwise"></i>
@@ -77,7 +72,7 @@
                   <p class="card-date">Published on {{ article.pub_date }}</p>
                   <a class="btn btn-warning" href="{{ article.link }}" role="button" data-toggle="tooltip" data-placement="top" title="This will redirect to an external site">Link to Article</a>
                   <a class="btn btn-success" href="mark_read/{{ article.id }}" role="button" data-toggle="tooltip" data-placement="top" title="This will remove the article from your feed">Mark Read</a>
-                  <a class="btn btn-success" href="toggle_bookmark/{{ article.id }}" role="button">Save For Later</a>
+                  <a class="btn btn-info" href="toggle_bookmark/{{ article.id }}" role="button">Save For Later</a>
                 </div>
               </div>
             </div>
